@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "61B14D26-3AC3-4C30-B2AF-C2B0DC6D0621"
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C152500B-9756-439F-9A28-CDF9FC47E331"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RickAndMortyKit/Sources/RickAndMortyKit/GraphQL/GraphQLCharacterLoader.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "29"
+            endingLineNumber = "29"
+            landmarkName = "loadCharacters()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "C152500B-9756-439F-9A28-CDF9FC47E331 - a9abedfccc1b974f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.CheckedContinuation&lt;Swift.Array&lt;RickAndMortyKit.Character&gt;, Swift.Error&gt;) -&gt; () in RickAndMortyKit.GraphQLCharacterLoader.loadCharacters() async throws -&gt; Swift.Array&lt;RickAndMortyKit.Character&gt;"
+                  moduleName = "RickAndMortyDemoApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/antoniopantaleo/Documents/Development/RickAndMortyDemoApp/RickAndMortyKit/Sources/RickAndMortyKit/GraphQL/GraphQLCharacterLoader.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "29"
+                  endingLineNumber = "29"
+                  offsetFromSymbolStart = "156">
+               </Location>
+               <Location
+                  uuid = "C152500B-9756-439F-9A28-CDF9FC47E331 - 9bf20a4e1361f204"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Result&lt;Apollo.GraphQLResult&lt;RickAndMortyKit.GraphqlAPI.AllCharactersQuery.Data&gt;, Swift.Error&gt;) -&gt; () in closure #1 (Swift.CheckedContinuation&lt;Swift.Array&lt;RickAndMortyKit.Character&gt;, Swift.Error&gt;) -&gt; () in RickAndMortyKit.GraphQLCharacterLoader.loadCharacters() async throws -&gt; Swift.Array&lt;RickAndMortyKit.Character&gt;"
+                  moduleName = "RickAndMortyDemoApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/antoniopantaleo/Documents/Development/RickAndMortyDemoApp/RickAndMortyKit/Sources/RickAndMortyKit/GraphQL/GraphQLCharacterLoader.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "31"
+                  endingLineNumber = "31"
+                  offsetFromSymbolStart = "76">
+               </Location>
+               <Location
+                  uuid = "C152500B-9756-439F-9A28-CDF9FC47E331 - 7afcbb5e90c121f5"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.CheckedContinuation&lt;Swift.Array&lt;RickAndMortyKit.Character&gt;, Swift.Error&gt;) -&gt; () in RickAndMortyKit.GraphQLCharacterLoader.loadCharacters() async throws -&gt; Swift.Array&lt;RickAndMortyKit.Character&gt;"
+                  moduleName = "RickAndMortyDemoApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/antoniopantaleo/Documents/Reply/graphql-showcase/RickAndMortyDemoApp/RickAndMortyKit/Sources/RickAndMortyKit/GraphQL/GraphQLCharacterLoader.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "29"
+                  endingLineNumber = "29"
+                  offsetFromSymbolStart = "156">
+               </Location>
+               <Location
+                  uuid = "C152500B-9756-439F-9A28-CDF9FC47E331 - 48a55cec4fbb4bb2"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Result&lt;Apollo.GraphQLResult&lt;RickAndMortyKit.GraphqlAPI.AllCharactersQuery.Data&gt;, Swift.Error&gt;) -&gt; () in closure #1 (Swift.CheckedContinuation&lt;Swift.Array&lt;RickAndMortyKit.Character&gt;, Swift.Error&gt;) -&gt; () in RickAndMortyKit.GraphQLCharacterLoader.loadCharacters() async throws -&gt; Swift.Array&lt;RickAndMortyKit.Character&gt;"
+                  moduleName = "RickAndMortyDemoApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/antoniopantaleo/Documents/Reply/graphql-showcase/RickAndMortyDemoApp/RickAndMortyKit/Sources/RickAndMortyKit/GraphQL/GraphQLCharacterLoader.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "31"
+                  endingLineNumber = "31"
+                  offsetFromSymbolStart = "76">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>
