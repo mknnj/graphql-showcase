@@ -1,3 +1,6 @@
 [submodule "rick-and-morty-api"]
 	path = rick-and-morty-api
 	url = https://github.com/mknnj/rick-and-morty-api
+[submodule "RickAndMortyKit"]
+	path = RickAndMortyDemoApp/RickAndMortyKit
+	url = ./RickAndMortyDemoApp/RickAndMortyKit
