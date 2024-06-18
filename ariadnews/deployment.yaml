@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ariadnews
+  labels:
+    app.kubernetes.io/name: ariadnews
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ariadnews
+  template:
+    metadata:
+      labels:
+        app: ariadnews
+    spec:
+      containers:
+        - name: app
+          image: ariadnews
+          env:
+          ports:
+            - containerPort: 8000
+              name: ariadnews-port
+          imagePullPolicy: Never
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ariadnews-svc
+spec:
+  selector:
+    app: ariadnews
+  ports:
+    - protocol: TCP
+      port: 8083
+      targetPort: ariadnews-port

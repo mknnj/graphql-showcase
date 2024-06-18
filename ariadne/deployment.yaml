@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ariadne-auth
+  labels:
+    app.kubernetes.io/name: ariadne-auth
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ariadne-auth
+  template:
+    metadata:
+      labels:
+        app: ariadne-auth
+    spec:
+      containers:
+        - name: app
+          image: ariadne-auth
+          env:
+          - name: MONGO_USER
+            value: "root"
+          - name: MONGO_PWD
+            value: "XrVv3kXhDj"
+          - name: MONGO_URL
+            value: "mongodb://root:XrVv3kXhDj@mongodb:27017/"
+          ports:
+            - containerPort: 8000
+              name: ariadne-port
+          imagePullPolicy: Never
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ariadne-service
+spec:
+  selector:
+    app: ariadne-auth
+  ports:
+    - protocol: TCP
+      port: 8083
+      targetPort: ariadne-port
+

@@ -1,0 +1,17 @@
+version: 1
+subgraphs:
+  - name: ramapi
+    routing_url: http://ramapi-service.default.svc.cluster.local:8082/graphql
+    schema:
+      file: ./ramapiSchema.graphql
+  - name: ariadne
+    routing_url: http://ariadne-service.default.svc.cluster.local:8083
+    schema:
+      file: ./ariadneSchema.graphql
+  - name: ariadnews
+    routing_url: http://ariadnews-svc.default.svc.cluster.local:8083
+    schema:
+      file: ./ariadnewsSchema.graphql
+    subscription:
+      protocol: "ws"
+      
