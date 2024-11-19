@@ -73,6 +73,7 @@ metadata:
     app: mongo
   name: mongodb
 spec:
+  type: LoadBalancer
   ports:
   - port: 27017
     targetPort: 27017
