@@ -1,8 +1,0 @@
-configuration:
-  devMode: true
-  logLevel: "debug"
-  controlplaneUrl: "https://cosmo-controlplane:3001"
-  graphqlMetricsCollectorUrl: "http://cosmo-graphqlmetrics:4005"
-  otelCollectorUrl: "http://cosmo-otelcollector:4318"
-  cdnUrl: "http://cosmo-cdn:8787"
-  graphApiToken: "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJkZGY1MzRhNS02OTQyLTQ3MDktYTk0ZC02ZDAzOTU5MDNiMjEiLCJmZWRlcmF0ZWRfZ3JhcGhfaWQiOiI0ODU4MmYyNC1jMDMzLTRkYjYtODZkNS1kZWY3OGQwYmY3OTQiLCJhdWQiOiJjb3NtbzpncmFwaC1rZXkiLCJvcmdhbml6YXRpb25faWQiOiJjMTAxNzgxZS1kYmM4LTRkMGItOTNiMy0xMjE5ZTc1ODMxYWYiLCJpYXQiOjE3MTM5NDgyODB9.g1gvQvaFMn4e_qO0czpZHGxsonVLiY5Ce5z1yBU-1qM"

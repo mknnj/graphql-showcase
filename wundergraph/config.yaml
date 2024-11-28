@@ -14,4 +14,9 @@ subgraphs:
       file: ./ariadnewsSchema.graphql
     subscription:
       protocol: "ws"
-      
+  - name: spring
+    routing_url: http://spring-svc.default.svc.cluster.local:8084/graphql
+    schema:
+      file: ./spring.graphql
+    subscription:
+      protocol: "ws"

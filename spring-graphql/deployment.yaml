@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-graphql
+  labels:
+    app.kubernetes.io/name: spring-graphql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spring-graphql
+  template:
+    metadata:
+      labels:
+        app: spring-graphql
+    spec:
+      containers:
+        - name: app
+          image: spring-graphql
+          env:
+          ports:
+            - containerPort: 8080
+              name: spring-port
+          imagePullPolicy: Never
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: spring-svc
+spec:
+  selector:
+    app: spring-graphql
+  ports:
+    - protocol: TCP
+      port: 8084
+      targetPort: spring-port

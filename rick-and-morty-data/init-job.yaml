@@ -1,0 +1,22 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: init-mongo-job
+spec:
+  template:
+    spec:
+      containers:
+      - name: init-mongo-container
+        image: mongo-initializer
+        imagePullPolicy: Never
+        env:
+          - name: MONGO_URI
+            value: "mongodb://root:XrVv3kXhDj@mongodb:27017/rickmorty?authSource=admin"  
+        command: ["/bin/sh", "-c"]
+        args:
+          - |
+            mongoimport --uri "$MONGO_URI" --collection characters --file /app/scripts/characters.json --jsonArray;
+            mongoimport --uri "$MONGO_URI" --collection episodes --file /app/scripts/episodes.json --jsonArray;
+            mongoimport --uri "$MONGO_URI" --collection locations --file /app/scripts/locations.json --jsonArray;
+      restartPolicy: Never
+  backoffLimit: 2

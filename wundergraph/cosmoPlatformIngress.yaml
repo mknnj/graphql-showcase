@@ -1,0 +1,141 @@
+#STUDIO
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: studio-ingress
+  namespace: cosmo
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: studio.wundergraph.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: cosmo-studio
+            port:
+              number: 3000
+---
+#CONTROLPLANE
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: controlplane-ingress
+  namespace: cosmo
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: controlplane.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: cosmo-controlplane
+            port:
+              number: 3001
+---
+#ROUTER
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: router-ingress
+  namespace: cosmo
+  annotations:
+    nginx.org/websocket-services: "router"
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: router.wundergraph.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: router
+            port:
+              number: 3002
+---
+#KEYCLOAK
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: keycloak-ingress
+  namespace: cosmo
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: keycloak.wundergraph.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: cosmo-keycloak
+            port:
+              number: 8080
+---
+#OTELCOLLECTOR
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: otelcoll-ingress
+  namespace: cosmo
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: otelcollector.wundergraph.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: cosmo-otelcollector
+            port:
+              number: 4318
+---
+#GRAPHQLMETRICS
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: gqlmetrics-ingress
+  namespace: cosmo
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: graphqlmetrics.wundergraph.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: cosmo-graphqlmetrics
+            port:
+              number: 4005
+---
+#CDN
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: cdn-ingress
+  namespace: cosmo
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: cdn.wundergraph.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: cosmo-cdn
+            port:
+              number: 8787
