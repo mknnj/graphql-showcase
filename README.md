@@ -19,17 +19,10 @@ This project provides a complete showcase of a GraphQL application aimed at comp
 7. **WunderGraph**: Files to spin up [Cosmo WunderGraph](https://wundergraph.com/), an open-source alternative for creating GraphQL federation that combines our three GraphQL APIs, allowing access from a single endpoint.
 
 ## Setup Guide
-
+**Please change default username/passwords before deploying anywhere, they are just an example**
 
 ### Preliminary steps: microservices, db, ingress controller
 - Run ```make``` to build the images for all microservices and to run them (TODO: create Makefile to build the images)
-- Cd to mongo folder and run ```kubectl apply -f <file>``` on every file to spin up MongoDB
-- Use ```kubectl port-forward``` to access the mongo from a MongoDBCompass and populate the collections using data from the rick-and-morty-data folder, the example credentials are:
-```
-user: root
-pass: XrVv3kXhDj
-```
-**please change them before deploying anywhere**
 - Spin up nginx moving to the nginx-ingress folder and running ```helm install my-release .``` (necessary if you want to access the cluster from the outside)
 ### Wundergraph Cosmo
 - Move to the wundergraph folder and install the cosmo platform using 
