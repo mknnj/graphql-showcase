@@ -1,7 +1,7 @@
 DOCKER_BUILDKIT=1
 SERVICES = ariadne ariadnews rick-and-morty-api spring-graphql
 .PHONY: all
-all: build-and-Deploy
+all: build-and-deploy
 
 .PHONY: build-and-deploy
 build-and-deploy:
