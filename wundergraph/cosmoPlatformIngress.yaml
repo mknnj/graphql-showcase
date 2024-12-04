@@ -1,141 +1,184 @@
 #STUDIO
-apiVersion: networking.k8s.io/v1
-kind: Ingress
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
 metadata:
-  name: studio-ingress
-  namespace: cosmo
+  name: studio-gateway
+  namespace: istio-ingress
 spec:
-  ingressClassName: nginx
-  rules:
-  - host: studio.wundergraph.local
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: cosmo-studio
+  selector:
+    istio: ingress  
+  servers:
+    - port:
+        number: 80          
+        name: http
+        protocol: HTTP
+      hosts:
+        - "studio.wundergraph.local"   
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: studio
+  namespace: istio-ingress
+spec:
+  hosts:
+    - "studio.wundergraph.local"       
+  gateways:
+    - studio-gateway         
+  http:
+    - match:
+        - uri:
+            prefix: /       
+      route:
+        - destination:
+            host: cosmo-studio.cosmo.svc.cluster.local     
             port:
               number: 3000
 ---
 #CONTROLPLANE
-apiVersion: networking.k8s.io/v1
-kind: Ingress
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
 metadata:
-  name: controlplane-ingress
-  namespace: cosmo
+  name: controlplane-gateway
+  namespace: istio-ingress
 spec:
-  ingressClassName: nginx
-  rules:
-  - host: controlplane.example.com
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: cosmo-controlplane
+  selector:
+    istio: ingress  
+  servers:
+    - port:
+        number: 80          
+        name: http
+        protocol: HTTP
+      hosts:
+        - "controlplane.example.com"   
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: controlplane
+  namespace: istio-ingress
+spec:
+  hosts:
+    - "controlplane.example.com"       
+  gateways:
+    - controlplane-gateway         
+  http:
+    - match:
+        - uri:
+            prefix: /       
+      route:
+        - destination:
+            host: cosmo-controlplane.cosmo.svc.cluster.local     
             port:
               number: 3001
 ---
 #ROUTER
-apiVersion: networking.k8s.io/v1
-kind: Ingress
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
 metadata:
-  name: router-ingress
-  namespace: cosmo
-  annotations:
-    nginx.org/websocket-services: "router"
+  name: router-gateway
+  namespace: istio-ingress
 spec:
-  ingressClassName: nginx
-  rules:
-  - host: router.wundergraph.local
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: router
+  selector:
+    istio: ingress  
+  servers:
+    - port:
+        number: 80          
+        name: http
+        protocol: HTTP
+      hosts:
+        - "router.wundergraph.local"   
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: router
+  namespace: istio-ingress
+spec:
+  hosts:
+    - "router.wundergraph.local"       
+  gateways:
+    - router-gateway         
+  http:
+    - match:
+        - uri:
+            prefix: /       
+      route:
+        - destination:
+            host: router.cosmo.svc.cluster.local     
             port:
               number: 3002
 ---
-#KEYCLOAK
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: keycloak-ingress
-  namespace: cosmo
-spec:
-  ingressClassName: nginx
-  rules:
-  - host: keycloak.wundergraph.local
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: cosmo-keycloak
-            port:
-              number: 8080
----
-#OTELCOLLECTOR
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: otelcoll-ingress
-  namespace: cosmo
-spec:
-  ingressClassName: nginx
-  rules:
-  - host: otelcollector.wundergraph.local
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: cosmo-otelcollector
-            port:
-              number: 4318
----
 #GRAPHQLMETRICS
-apiVersion: networking.k8s.io/v1
-kind: Ingress
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
 metadata:
-  name: gqlmetrics-ingress
-  namespace: cosmo
+  name: graphqlmetrics-gateway
+  namespace: istio-ingress
 spec:
-  ingressClassName: nginx
-  rules:
-  - host: graphqlmetrics.wundergraph.local
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: cosmo-graphqlmetrics
+  selector:
+    istio: ingress  
+  servers:
+    - port:
+        number: 80          
+        name: http
+        protocol: HTTP
+      hosts:
+        - "graphqlmetrics.wundergraph.local"   
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: graphqlmetrics
+  namespace: istio-ingress
+spec:
+  hosts:
+    - "graphqlmetrics.wundergraph.local"       
+  gateways:
+    - graphqlmetrics-gateway         
+  http:
+    - match:
+        - uri:
+            prefix: /       
+      route:
+        - destination:
+            host: graphqlmetrics.cosmo.svc.cluster.local     
             port:
               number: 4005
 ---
 #CDN
-apiVersion: networking.k8s.io/v1
-kind: Ingress
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
 metadata:
-  name: cdn-ingress
-  namespace: cosmo
+  name: cosmo-cdn-gateway
+  namespace: istio-ingress
 spec:
-  ingressClassName: nginx
-  rules:
-  - host: cdn.wundergraph.local
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: cosmo-cdn
+  selector:
+    istio: ingress  
+  servers:
+    - port:
+        number: 80          
+        name: http
+        protocol: HTTP
+      hosts:
+        - "cdn.wundergraph.local"   
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: cosmo-cdn
+  namespace: istio-ingress
+spec:
+  hosts:
+    - "cdn.wundergraph.local"       
+  gateways:
+    - cosmo-cdn-gateway         
+  http:
+    - match:
+        - uri:
+            prefix: /       
+      route:
+        - destination:
+            host: cosmo-cdn.cosmo.svc.cluster.local     
             port:
               number: 8787
