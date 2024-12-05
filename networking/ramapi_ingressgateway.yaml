@@ -1,0 +1,51 @@
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: ramapi-gateway
+  namespace: istio-ingress
+spec:
+  selector:
+    istio: ingress  
+  servers:
+    - port:
+        number: 80          
+        name: http
+        protocol: HTTP
+      hosts:
+        - "ramapi.foo.org"   
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: ramapi
+  namespace: istio-ingress
+spec:
+  hosts:
+    - "ramapi.foo.org"       
+  gateways:
+    - ramapi-gateway         
+  http:
+    - match:
+        - uri:
+            prefix: /graphql
+      route:
+        - destination:
+            host: ramapi-service.default.svc.cluster.local
+            port:
+              number: 8082
+      headers:
+        request:
+          add:
+            X-sorgente: ramapi-gateway-graph
+    - match:
+        - uri:
+            prefix: /api
+      route:
+        - destination:
+            host: ramapi-service.default.svc.cluster.local
+            port:
+              number: 8082
+      headers:
+        request:
+          add:
+            X-sorgente: ramapi-gateway-rest

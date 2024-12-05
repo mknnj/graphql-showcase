@@ -1,0 +1,35 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: add-x-source-header
+  namespace: default
+spec:
+  workloadSelector:
+    labels:
+      app: ramapi
+  configPatches:
+    - applyTo: HTTP_FILTER
+      match:
+        context: SIDECAR_INBOUND
+        listener:
+          portNumber: 8080
+          filterChain:
+            filter:
+              name: "envoy.filters.network.http_connection_manager"
+      patch:
+        operation: INSERT_BEFORE
+        value:
+          name: "envoy.filters.http.lua"
+          typed_config:
+            "@type": "type.googleapis.com/envoy.extensions.filters.http.lua.v3.Lua"
+            inlineCode: |
+              function envoy_on_request(request_handle)
+                local x_sorgente = request_handle:headers():get("x-sorgente")
+                if x_sorgente then
+                  request_handle:logCritical("X-sorgente header: " .. x_sorgente)
+                else
+                  request_handle:logCritical("X-sorgente header not found")  
+                  request_handle:logCritical("Request method: " .. request_handle:headers():get(":method"))  -- Esempio di log per il metodo della richiesta
+                  request_handle:logCritical("Request path: " .. request_handle:headers():get(":path"))  -- Esempio di log per il percorso della richiesta
+                end
+              end

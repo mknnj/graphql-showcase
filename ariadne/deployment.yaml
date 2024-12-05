@@ -23,7 +23,7 @@ spec:
           - name: MONGO_PWD
             value: "XrVv3kXhDj"
           - name: MONGO_URL
-            value: "mongodb://root:XrVv3kXhDj@mongodb:27017/"
+            value: "mongodb://root:XrVv3kXhDj@mongodb.default.svc.cluster.local:27017/"
           ports:
             - containerPort: 8000
               name: ariadne-port

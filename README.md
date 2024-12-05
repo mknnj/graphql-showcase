@@ -22,8 +22,54 @@ This project provides a complete showcase of a GraphQL application aimed at comp
 **Please change default username/passwords before deploying anywhere, they are just an example**
 
 ### Preliminary steps: microservices, db, ingress controller
-- Run ```make``` to build the images for all microservices and to run them (TODO: create Makefile to build the images)
-- Spin up nginx moving to the nginx-ingress folder and running ```helm install my-release .``` (necessary if you want to access the cluster from the outside)
+- Run ```make``` to build the images for all microservices and to run them
+### Additional observability tools: Istio, Kiali, Grafana, Jaeger
+- Install istio and istio ingress gateway using helm, in short:
+```
+kubectl create namespace istio-system
+helm install istio-base istio/base -n istio-system --set defaultRevision=default
+helm install istiod istio/istiod -n istio-system --wait
+kubectl create namespace istio-ingress
+helm install istio-ingress istio/gateway -n istio-ingress --wait
+```
+- Install prometheus add on and configure it to scrape envoy metrics:
+```
+kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.24/samples/addons/prometheus.yaml
+kubectl get configmaps -n <your-prometheus-namespace>
+kubectl edit configmap <nome-configmap-prometheus> -n <your-prometheus-namespace>
+```
+then add the following:
+```
+scrape_configs:
+  - job_name: 'envoy-stats'
+    metrics_path: /stats/prometheus
+    kubernetes_sd_configs:
+      - role: pod
+    relabel_configs:
+      - source_labels: [__meta_kubernetes_pod_container_port_name]
+        action: keep
+        regex: '.*-envoy-prom'
+```
+and restart prometheus:
+```
+kubectl delete pod  <prometheus pod id> -n istio-system
+```
+In order to deploy the custom istio labels used to distinguish the REST and GraphQL traffic you also need to move to the networking folder and run:
+```
+kubectl apply -f customLabels.yaml
+```
+- Install Kiali with ```kubectl apply -f kiali.yaml``` or by running:
+```
+helm install --namespace istio-system --set auth.strategy="anonymous" --repo https://kiali.org/helm-charts kiali-server kiali-server
+```
+- Install jaeger using ```kubectl apply -f jaeger.yaml```
+- Run all files ```kubectl apply -f <servicename>_ingressgateway.yaml``` in the "networking" folder to spin up gateways and virtual services.
+- Add the following entries to hosts file:
+```
+127.0.0.1 kiali.foo.org
+127.0.0.1 jaeger.example.com
+```
+- Access to http://kiali.foo.org and http://jaeger.example.com with your browser to ensure everything is working fine
 ### Wundergraph Cosmo
 - Move to the wundergraph folder and install the cosmo platform using 
 ```
@@ -37,15 +83,13 @@ This project provides a complete showcase of a GraphQL application aimed at comp
 127.0.0.1 controlplane.example.com
 127.0.0.1 studio.wundergraph.local
 127.0.0.1 router.wundergraph.local
-127.0.0.1 keycloak.wundergraph.local
-127.0.0.1 otelcollector.wundergraph.local
 127.0.0.1 graphqlmetrics.wundergraph.local
 127.0.0.1 cdn.wundergraph.local
 ```
-- Check connectivity to the controlplane by trying to reach out http://controlplane.example.com in your browser, it should give you a json with an error 404. If it gives you 502 nginx error, try ```kubectl delete -f cosmoPlatformIngress.yaml``` and then ```kubectl apply -f cosmoPlatformIngress.yaml``` and ```kubectl rollout restart deployment <name of the nginx controller deployment>```
+- Check connectivity to the controlplane by trying to reach out http://controlplane.example.com in your browser, it should give you a json with an error 404. If it gives you other errors, try ```kubectl delete -f cosmoPlatformIngress.yaml``` and then ```kubectl apply -f cosmoPlatformIngress.yaml``` and ```kubectl rollout restart deployment <name of the istio gateway controller deployment>```
 - Open a command window and export ```COSMO_API_URL=http://controlplane.example.com``` and ```COSMO_API_KEY=cosmo_669b576aaadc10ee1ae81d9193425705```
 - Install wgc using node ```npm install -g wgc@latest```
-- Run ```npx wgc federated-graph list``` to test connectivity to your controlplane, if it fails and tells you to auth **DO NOT** auth (it is trying to log in the cloud instead of your local cluster) and check for typos in the env variables and errors in the logs of nginx controller pod/cosmo controplane pod
+- Run ```npx wgc federated-graph list``` to test connectivity to your controlplane, if it fails and tells you to auth **DO NOT** auth (it is trying to log in the cloud instead of your local cluster) and check for typos in the env variables and errors in the logs of istio controller pod/cosmo controplane pod
 - Create and publish subgraphs by running the following commands:
 ```
 npx wgc subgraph create ariadne --label app=A --routing-url http://ariadne-service.default.svc.cluster.local:8083
@@ -70,22 +114,3 @@ helm upgrade --install router oci://ghcr.io/wundergraph/cosmo/helm-charts/router
     --values ./values-router-new.yaml
 ```
 - Try to connect from your browser to http://router.wundergraph.local and check that wundergraph playground opens correctly
-### Additional observability tools: Istio, Kiali, Grafana, Jaeger (not covered in detail)
-- Install istio using helm, in short:
-```
-kubectl create namespace istio-system
-helm install istio-base istio/base -n istio-system --set defaultRevision=default
-helm install istiod istio/istiod -n istio-system --wait
-```
-- Install Kiali with ```kubectl apply -f kiali.yaml``` or by running:
-```
-helm install --namespace istio-system --set auth.strategy="anonymous" --repo https://kiali.org/helm-charts kiali-server kiali-server
-```
-- Install jaeger using ```kubectl apply -f jaeger.yaml```
-- Run ```kubectl apply -f ingress_jaeger.yaml``` and ```kubectl apply -f ingress_kiali.yaml```
-- Add the following entries to hosts file:
-```
-127.0.0.1 kiali.foo.org
-127.0.0.1 jaeger.example.com
-```
-- Access to http://kiali.foo.org and http://jaeger.example.com with your browser to ensure everything is working fine

@@ -1,0 +1,35 @@
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: jaeger-gateway
+  namespace: istio-ingress
+spec:
+  selector:
+    istio: ingress  
+  servers:
+    - port:
+        number: 80          
+        name: http
+        protocol: HTTP
+      hosts:
+        - "jaeger.example.com"   
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: jaeger
+  namespace: istio-ingress
+spec:
+  hosts:
+    - "jaeger.example.com"       
+  gateways:
+    - jaeger-gateway         
+  http:
+    - match:
+        - uri:
+            prefix: /       
+      route:
+        - destination:
+            host: tracing.istio-system.svc.cluster.local     
+            port:
+              number: 80  
