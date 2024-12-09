@@ -8,11 +8,13 @@ spec:
     - name: prometheus
     overrides:
     - match:
-        metric: REQUEST_COUNT
+        metric: ALL_METRICS
       tagOverrides:
         request_path:
           value: "request.path"
         request_host:
           value: "request.host"
         request_headers:
-          value: "request_headers"
+          value: "request.headers[\"x-sorgente\"]"
+        source_address:
+          value: "source.address"

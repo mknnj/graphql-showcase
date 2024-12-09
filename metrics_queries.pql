@@ -1,0 +1,51 @@
+#Average response time:
+
+#graphql router
+
+avg(rate(istio_request_duration_milliseconds_sum{request_headers="unknown", request_path=~"/graphql*"}[5m])) 
+/
+avg(rate(istio_request_duration_milliseconds_count{request_headers="unknown", request_path=~"/graphql*"}[5m]))
+
+#graphql direct
+
+avg(rate(istio_request_duration_milliseconds_sum{request_headers="ramapi-gateway-graph", request_path=~"/graphql*"}[5m])) 
+/
+avg(rate(istio_request_duration_milliseconds_count{request_headers="ramapi-gateway-graph", request_path=~"/graphql*"}[5m]))
+
+#rest
+
+avg(rate(istio_request_duration_milliseconds_sum{request_headers="ramapi-gateway-rest", request_path=~"/api.*"}[5m])) 
+/
+avg(rate(istio_request_duration_milliseconds_count{request_headers="ramapi-gateway-rest", request_path=~"/api.*"}[5m]))
+
+
+
+#Total request count
+
+#graphql router
+
+sum(rate(istio_requests_total{request_headers="unknown", request_path=~"/graphql*"}[5m])) 
+
+#graphql direct
+
+sum(rate(istio_requests_total{request_headers="ramapi-gateway-graph", request_path=~"/graphql*"}[5m]))
+
+#rest
+
+sum(rate(istio_requests_total{request_headers="ramapi-gateway-rest", request_path=~"/api.*"}[5m])) 
+
+
+
+#Total bytes exchanged
+
+#graphql router
+
+sum(rate(istio_response_bytes_count{request_headers="unknown", request_path=~"/graphql*"}[5m])) 
+
+#graphql direct
+
+sum(rate(istio_response_bytes_count{request_headers="ramapi-gateway-graph", request_path=~"/graphql*"}[5m])) 
+
+#rest
+
+sum(rate(istio_response_bytes_count{request_headers="ramapi-gateway-rest", request_path=~"/api.*"}[5m]))  

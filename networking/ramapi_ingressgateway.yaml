@@ -23,7 +23,7 @@ spec:
   hosts:
     - "ramapi.foo.org"       
   gateways:
-    - ramapi-gateway         
+    - ramapi-gateway
   http:
     - match:
         - uri:
